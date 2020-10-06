@@ -32,27 +32,27 @@ def main(argv):
   #if os.path.isfile(os.getcwd()+"/result/fo_"+N):
   #  print ("Result files for N="+N+" are already exist.")
   #  sys.exit()
-  if not os.path.isfile(cur_path+'/../post_recent/output/df_'+N+'.list'):
+  if not os.path.isfile(cur_path+'/../post_recent/output/df2_'+N+'.list'):
     print ("Input hex file does not exist.")
     sys.exit()
 
 # gen training data #
-  f = open(cur_path+'/../input/FandLP/f'+N+'_hex.list', 'r')
+  f = open(cur_path+'/../input/FandLP/large/f'+N+'_hex.list', 'r')
   hexcode = f.readlines()
   f.close()
   for i in range(0,len(hexcode)):
       hexcode[i] = hexcode[i].split(' ')
-  f = open(cur_path+'/../input/FandLP/f'+N+'_hex.anal', 'r')
+  f = open(cur_path+'/../input/FandLP/large/f'+N+'_hex.anal', 'r')
   f_info = f.readlines()
   f.close()
 
 #f = open('/home/donghoon/ssd/jg/disasm/input/LPdata_hex.list', 'r')
-  f = open(cur_path+'/../post_recent/output/df_'+N+'.list', 'r')
+  f = open(cur_path+'/../post_recent/output/df2_'+N+'.list', 'r')
   hexdata = f.readlines()
   f.close()    
   for i in range(0,len(hexdata)):
       hexdata[i] = hexdata[i].split(' ')
-  f = open(cur_path+'/../post_recent/output/df_'+N+'.anal', 'r')
+  f = open(cur_path+'/../post_recent/output/df2_'+N+'.anal', 'r')
   #f = open("/home/donghoon/ssd/jg/disasm/output/data.anal", 'r')
   #f = open("/home/donghoon/ssd/jg/disasm/output/function_onlySub.anal", 'r')
   d_info = f.readlines()
