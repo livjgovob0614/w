@@ -1,0 +1,1 @@
+print (int(0xB / 4), int(0xB % 4))
