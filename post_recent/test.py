@@ -2,20 +2,21 @@ import sys, os, glob
 import subprocess
 
 def main(argv):
-  in_path = "/home/donghoon/ssd/jg/20/input/"
+  in_path = "/home/donghoon/ssd/jg/20/input/TypeandF/"
 
   os.chdir(in_path)
 
-  flist = ["all_jt.list"]
+  flist = ["string.list", "array.list", "else.list"]
+  outlist = ["string.anal", "array.anal", "else.anal"]
 
-  out_n = "jt.list"
-
+  n = -1
   for i in flist:
+    n += 1
     f = open(i, 'r')
     adrlist = f.readlines()
     f.close()
 
-    out_f = open(out_n, 'w')
+    out_f = open(outlist[n], 'w')
 
     maxN = 0
     j = 0
@@ -25,7 +26,7 @@ def main(argv):
         print ("NO *** in line")
         sys.exit()
 
-      out_f.write(adrlist[j])
+      #out_f.write(adrlist[j])
       fn = adrlist[j].split()[1]
       if fn[-4:] == ".lst":
         fn = fn[:-4]
@@ -40,7 +41,14 @@ def main(argv):
       j += 1
       while j < len(adrlist) and not "***" in adrlist[j]:
         spl = adrlist[j].split()
+        out_f.write(fn + " " + spl[0] + "\n")
+
+
+
+        # jt #
+        '''
         if int(spl[1]) > 5000:
+          spl = adrlist[j].split()
           j += 1
           continue
 
@@ -48,10 +56,11 @@ def main(argv):
         if int(spl[1]) > maxN:
           maxN = int(spl[1])
           maxF = fn + " " + adrlist[j]
+        '''
         j += 1
 
-  print (maxN)
-  print (maxF)
+  #print (maxN)
+  #print (maxF)
   out_f.close
 
 

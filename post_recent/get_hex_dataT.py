@@ -12,18 +12,23 @@ def main(argv):
   #if len(argv) < 2:
   #  print ("python3 fn.py")
 
-  os.chdir("/home/donghoon/ssd/jg/disasm/input/")
+  os.chdir("/home/donghoon/ssd/jg/20/input/TypeandF/")
 
+  #flist = ["LPdata.list"]
   #flist = ["string.list", "array.list", "else.list", "function_onlySub.list"]
-  flist = ["LPdata.list"]
+  flist = ["string.list", "array.list", "else.list"]
+  outf = ["string", "array", "else"]
+  z = -1
   for i in flist:
+    z += 1
     f = open(i, 'r')
     adrlist = f.readlines()
     f.close()
 
     ty = i.split('.')[0]
 
-    out_f = open(ty+"_hex.list", 'w')
+    # XXX out_f = open(ty+"_hex.list", 'w')
+    out_f = open(outf[z], 'w')
 
     j = 0
     while j < len(adrlist):
@@ -65,6 +70,9 @@ def main(argv):
         #  e_line = s_line + 25
         #  e_idx = s_idx
 
+        # test
+        #print ("**** startAdr:", startAdr, "   size:", size)
+        out_f.write("fn:" + fn + "startAdr:" + str(hex(startAdr)) + ",  size:" + str(size) + "\n")
         hexBytes = ""
         for k in range(e_line - s_line + 1):
           s, e = 0, 4
@@ -74,6 +82,14 @@ def main(argv):
             e = e_idx + 1
           #if fn == "adrlist[j].split()[1][:-4]":
           #  print ("s_line:" + str(s_line))
+          ### test ###
+          # test
+          #print ("cor hex line:", hex_f[s_line+k])
+          out_f.write(hex_f[s_line+k])
+
+
+
+#####################
           hexBytes = "".join(hex_f[s_line+k].split()[1:3])
           for h in range(s, e):
             hexlist.append(hexBytes[h*2:h*2+2])
@@ -93,7 +109,7 @@ def main(argv):
           line += 1
         '''
 
-        out_f.write(" ".join(hexlist) + "\n")
+        # XXX out_f.write(" ".join(hexlist) + "\n")
         j += 1
     out_f.close()
 

@@ -14,15 +14,16 @@ from sklearn.model_selection import cross_val_score
 
 # gen training data #
 cur_path = os.getcwd()
-N = str(20)
+N = str(40)
 
-f = open(cur_path+'/../../input/FandLP/f'+N+'_hex.list', 'r')
+f = open(cur_path+'/../../input/FandLP/large/f'+N+'_hex.list', 'r')
 hexcode = f.readlines()
 f.close()
 for i in range(0,len(hexcode)):
     hexcode[i] = hexcode[i].split(' ')
 
-f = open(cur_path+'/../../post_recent/output/df_'+N+'.list', 'r')
+#f = open(cur_path+'/../../post_recent/output/df_'+N+'.list', 'r')
+f = open(cur_path+'/../../post_recent/output/df_1007test_'+N+'.list', 'r')
 hexdata = f.readlines()
 f.close()    
 for i in range(0,len(hexdata)):
@@ -79,7 +80,7 @@ y_test = y_test[idx]
 print (x_train.shape)
 print (x_test.shape)
 
-text_max_words = 20
+text_max_words = int(N)
 x_train = sequence.pad_sequences(x_train, maxlen=text_max_words)
 x_test = sequence.pad_sequences(x_test, maxlen=text_max_words)
 print (x_train.shape)
@@ -95,12 +96,12 @@ importances = rf.feature_importances_
 indices = np.argsort(importances)[::-1]
 plt.figure(1)
 plt.title('Feature Importances')
-index = np.arange(20)
+index = np.arange(int(N))
 plt.bar(index, importances[index], color='b', align='center')
 plt.ylabel('Relative Importance')
 plt.xlabel('Index of Input Vector')
 plt.show()
-plt.savefig('df.png')
+plt.savefig('featureI_1007test.png')
 
 
 print ("Feature ranking:")

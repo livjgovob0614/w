@@ -49,6 +49,8 @@ y_train = (np.concatenate((y_code,y_data ), axis=0))
 print ("x_train, y_train shape:")
 print (x_train.shape)
 print (y_train.shape)
+print (y_train)
+sys.exit()
 
 
 max_features = 1
