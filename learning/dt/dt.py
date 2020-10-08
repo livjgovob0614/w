@@ -20,7 +20,7 @@ from sklearn.model_selection import GridSearchCV
 
 # gen training data #
 cur_path = os.getcwd()
-N = str(40)
+N = str(20)
 
 f = open(cur_path+'/../../input/FandLP/large/f'+N+'_hex.list', 'r')
 hexcode = f.readlines()
@@ -28,8 +28,8 @@ f.close()
 for i in range(0,len(hexcode)):
     hexcode[i] = hexcode[i].split(' ')
 
-#f = open(cur_path+'/../../post_recent/output/df_'+N+'.list', 'r')
-f = open(cur_path+'/../../post_recent/output/df_1007test_'+N+'.list', 'r')
+f = open(cur_path+'/../../post_recent/output/df_'+N+'.list', 'r')
+#f = open(cur_path+'/../../post_recent/output/df_1007test_'+N+'.list', 'r')
 hexdata = f.readlines()
 f.close()    
 for i in range(0,len(hexdata)):
