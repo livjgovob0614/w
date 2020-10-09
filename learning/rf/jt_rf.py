@@ -11,18 +11,21 @@ from keras.preprocessing import sequence
 from keras.models import Sequential
 from keras.layers import Dense
 from sklearn.model_selection import cross_val_score
+from sklearn.inspection import permutation_importance
 
 # gen training data #
 cur_path = os.getcwd()
 N = str(4500)
 
-f = open(cur_path+'/../../input/jt'+N+'_hex.list', 'r')
+#f = open(cur_path+'/../../input/large/jt'+N+'_hex.list', 'r')
+f = open(cur_path+'/../../input/1009test_jt'+N+'_hex.list', 'r')
 hexcode = f.readlines()
 f.close()
 for i in range(0,len(hexcode)):
     hexcode[i] = hexcode[i].split(' ')
 
-f = open(cur_path+'/../../input/jt'+N+'_hex.anal', 'r')
+#f = open(cur_path+'/../../input/large/jt'+N+'_hex.anal', 'r')
+f = open(cur_path+'/../../input/1009test_jt'+N+'_hex.anal', 'r')
 ff = f.readlines()
 f.close()    
 hexdata = []
@@ -74,31 +77,37 @@ print (x_train.shape)
 print (x_test.shape)
 
 
+rf2 = RandomForestClassifier()
+score = cross_val_score(rf2, x_train, y_train, cv=5)
+print ("** ** ** cross: ", np.round(score,4))
+print ("** ** ** cross_avg: ", np.round(np.mean(score),4))
+
+
+
+
 rf = RandomForestClassifier()
 rf.fit(x_train, y_train)
-rf.predict_proba(x_test)
-print(rf.score(x_test, y_test))
+#rf.predict_proba(x_test)
+#print(rf.score(x_test, y_test))
 
-importances = rf.feature_importances_
-indices = np.argsort(importances)[::-1]
+'''
+r = permutation_importance(rf, x_test, y_test, n_repeats=1, random_state=0)
+indices = np.arange(int(N))
 plt.figure(1)
-plt.title('Feature Importances')
-index = np.arange(20)
-plt.bar(index, importances[index], color='b', align='center')
-plt.ylabel('Relative Importance')
-plt.xlabel('Index of Input Vector')
+plt.title('Permutation Importances')
+plt.barh(range(len(indices)), r.importances.mean(axis=1).T, color='b', align='center')
+plt.xlabel('Importance')
+plt.ylabel('Feature')
 plt.show()
-plt.savefig('jt_df.png')
+plt.savefig('jt1009_perImp_bar.png')
+'''
 
-
-print ("Feature ranking:")
-#for f in range(x_train.shape[1]):
-for f in range(20):
-  print ("%d. feature %d (%f)" % (f + 1, indices[f], importances[indices[f]]))
 
 d_o = open("oo", "w")
 d_x = open("xx", "w")
 
+#rf.predict_proba(x_test)
+print(rf.score(x_test, y_test))
 # TODO: feature importance
 fo, fx, do, dx = 0, 0, 0, 0
 # result #
@@ -116,5 +125,21 @@ d_x.close()
 #model = Sequential
 
 
+importances = rf.feature_importances_
+indices = np.argsort(importances)[::-1]
+plt.figure(1)
+plt.title('Feature Importances')
+index = np.arange(20)
+plt.bar(index, importances[index], color='b', align='center')
+plt.ylabel('Relative Importance')
+plt.xlabel('Index of Input Vector')
+plt.show()
+plt.savefig('jt_df.png')
+
+
+print ("Feature ranking:")
+#for f in range(x_train.shape[1]):
+for f in range(20):
+  print ("%d. feature %d (%f)" % (f + 1, indices[f], importances[indices[f]]))
 sys.exit()
 

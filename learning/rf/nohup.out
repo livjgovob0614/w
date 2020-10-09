@@ -1,0 +1,59 @@
+/usr/local/lib/python3.6/dist-packages/scikit_learn-0.23.2-py3.6-linux-x86_64.egg/sklearn/utils/deprecation.py:143: FutureWarning: The sklearn.datasets.samples_generator module is  deprecated in version 0.22 and will be removed in version 0.24. The corresponding classes / functions should instead be imported from sklearn.datasets. Anything that cannot be imported from sklearn.datasets is now part of the private API.
+  warnings.warn(message, FutureWarning)
+/usr/local/lib/python3.6/dist-packages/scikit_learn-0.23.2-py3.6-linux-x86_64.egg/sklearn/utils/deprecation.py:143: FutureWarning: The sklearn.metrics.scorer module is  deprecated in version 0.22 and will be removed in version 0.24. The corresponding classes / functions should instead be imported from sklearn.metrics. Anything that cannot be imported from sklearn.metrics is now part of the private API.
+  warnings.warn(message, FutureWarning)
+/usr/local/lib/python3.6/dist-packages/scikit_learn-0.23.2-py3.6-linux-x86_64.egg/sklearn/utils/deprecation.py:143: FutureWarning: The sklearn.feature_selection.base module is  deprecated in version 0.22 and will be removed in version 0.24. The corresponding classes / functions should instead be imported from sklearn.feature_selection. Anything that cannot be imported from sklearn.feature_selection is now part of the private API.
+  warnings.warn(message, FutureWarning)
+code, data shape:
+(158343, 20)
+(140000, 20)
+x_train, y_train shape:
+(298343, 20)
+(298343,)
+(218343, 20)
+(80000, 20)
+(218343, 20)
+(80000, 20)
+0.997075
+3       0.219 +/- 0.001
+0       0.076 +/- 0.000
+7       0.068 +/- 0.001
+2       0.060 +/- 0.001
+11      0.056 +/- 0.001
+19      0.023 +/- 0.001
+1       0.018 +/- 0.000
+6       0.008 +/- 0.000
+4       0.003 +/- 0.000
+5       0.002 +/- 0.000
+9       0.001 +/- 0.000
+10      0.001 +/- 0.000
+8       0.001 +/- 0.000
+12      0.000 +/- 0.000
+15      0.000 +/- 0.000
+13      0.000 +/- 0.000
+14      0.000 +/- 0.000
+16      0.000 +/- 0.000
+17      0.000 +/- 0.000
+indices.shape:
+(20,)
+Feature ranking:
+1. feature 3 (0.239540)
+2. feature 0 (0.191017)
+3. feature 7 (0.117320)
+4. feature 2 (0.089261)
+5. feature 11 (0.051363)
+6. feature 4 (0.047563)
+7. feature 6 (0.045541)
+8. feature 15 (0.044337)
+9. feature 8 (0.031225)
+10. feature 10 (0.029783)
+11. feature 1 (0.029773)
+12. feature 5 (0.021951)
+13. feature 12 (0.015345)
+14. feature 9 (0.012898)
+15. feature 14 (0.008746)
+16. feature 13 (0.008059)
+17. feature 19 (0.007290)
+18. feature 18 (0.003119)
+19. feature 16 (0.003028)
+20. feature 17 (0.002841)

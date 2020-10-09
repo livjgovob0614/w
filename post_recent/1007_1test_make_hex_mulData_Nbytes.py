@@ -68,9 +68,10 @@ def main(argv):
       # Read 1 random type hex #
       ty = np.random.randint(3)
       N = np.random.randint(hexf_size[ty])
-      anal_f.write("type "+ str(ty)+ "["+str(N)+ "]")
 
       line = hexf[ty][N][:-1].split() # remove '\n'
+
+      anal_f.write("type "+ str(ty)+ "["+str(N)+ "]")
       while len(write_str) < size and line:
         write_str.append(line.pop(0))
     elif mode == 1:

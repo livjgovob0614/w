@@ -81,10 +81,14 @@ print (x_train.shape)
 print (x_test.shape)
 
 
+#dt = DecisionTreeClassifier(min_samples_split=2, max_depth=3)
+#dt.fit(x_train, y_train)
+#dt.predict_proba(x_test)
+#print(dt.score(x_test, y_test))
 dt = DecisionTreeClassifier(min_samples_split=2, max_depth=3)
-dt.fit(x_train, y_train)
-dt.predict_proba(x_test)
-print(dt.score(x_test, y_test))
+score = cross_val_score(dt, x_train, y_train, cv=5)
+print ("cross: ", np.round(score,4))
+print ("cross_avg: ", np.round(np.mean(score),4))
 export_graphviz(dt, out_file="tree.dot", class_names=["data", "code"],
                 feature_names=None, impurity=False, filled=True)
 
