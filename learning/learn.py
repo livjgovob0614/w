@@ -9,7 +9,7 @@ from sklearn.datasets.samples_generator import make_blobs
 from sklearn.model_selection import train_test_split, StratifiedKFold
 from keras.preprocessing import sequence
 from keras.models import Sequential
-from keras.layers import Dense
+from keras.layers import Dense, LSTM, Embedding, BatchNormalization, Activation
 from keras.wrappers.scikit_learn import KerasClassifier, KerasRegressor
 from sklearn.model_selection import cross_val_score, KFold
 import seaborn as sns
@@ -32,7 +32,7 @@ def main(argv):
   #if os.path.isfile(os.getcwd()+"/result/fo_"+N):
   #  print ("Result files for N="+N+" are already exist.")
   #  sys.exit()
-  if not os.path.isfile(cur_path+'/../post_recent/output/df2_'+N+'.list'):
+  if not os.path.isfile(cur_path+'/../post_recent/output/df_1007test_'+N+'.list'):
     print ("Input hex file does not exist.")
     sys.exit()
 
@@ -117,17 +117,16 @@ def main(argv):
           #x_train[i][j] = int ("0x" + x_train[i][j].astype(np.int64), 16)
           x_train[i][j] = int ("0x"+x_train[i][j], 16)
 
-
     idx = np.arange(x_train.shape[0])
     np.random.shuffle(idx)
     info = info[idx]
-    info_test = info[:30000]
+    info_test = info[:1500]
     x_train = x_train[idx]
     y_train = y_train[idx]
-    x_test = x_train[:30000]
-    x_train = x_train[30000:]
-    y_test = y_train[:30000]
-    y_train = y_train[30000:]
+    x_test = x_train[:1500]
+    x_train = x_train[1500:]
+    y_test = y_train[:1500]
+    y_train = y_train[1500:]
     print (x_train.shape)
     print (x_test.shape)
 
@@ -158,8 +157,10 @@ def main(argv):
       model.add(Dense(64, input_dim=text_max_words, activation='relu'))
 # deep
       if argv[1] == "d":
-        model.add(Dense(64, activation='relu'))
-        #model.add(Dense(32, activation='relu'))
+        model.add(Dense(128))
+        model.add(BatchNormalization())
+        model.add(Activation('relu'))
+        #model.add(Dense(64, activation='relu'))
       model.add(Dense(1, activation='sigmoid'))
       #model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['accuracy'])
       model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])

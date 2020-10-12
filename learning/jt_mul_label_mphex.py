@@ -21,11 +21,11 @@ def main(argv):
     sys.exit()
 
   cur_path = os.getcwd()
-  N = "4500"
+  N = argv[2]
   n = 0
-  while os.path.isdir(cur_path+"/result/"+argv[1]+N+"_"+str(n)):
+  while os.path.isdir(cur_path+"/result/jt/"+argv[1]+N+"_"+str(n)):
     n += 1
-  wDir = cur_path+"/result/"+argv[1]+N+"_"+str(n)
+  wDir = cur_path+"/result/jt/"+argv[1]+N+"_"+str(n)
   os.makedirs(wDir)
   os.chdir(wDir)
 
@@ -34,7 +34,7 @@ def main(argv):
   #  sys.exit()
 
 # gen training data #
-  f = open(cur_path+'/../input/jt'+N+'_hex.list', 'r')
+  f = open(cur_path+'/../input/jt'+N+'.list', 'r')
   hexcode = f.readlines()
   f.close()
   for i in range(0,len(hexcode)):
@@ -43,20 +43,27 @@ def main(argv):
   #f_info = f.readlines()
   #f.close()
 
-  f = open(cur_path+'/../input/jt'+N+'_hex.anal', 'r')
+  f = open(cur_path+'/../input/jt'+N+'.anal', 'r')
   ff = f.readlines()
   f.close()    
   hexdata = []
   for i in range(0,len(ff)):
       spl = ff[i].split(' ')
-      hexdata.append(int(spl[2]) - 1)
+      hexdata.append(np.array([0]*(int(spl[2])-1) + [1] + [0]*(int(N)-int(spl[2]))))
+      #hexdata.append(int(spl[2]) - 1)
+  print (hexdata[-1])
   x_train = np.array(hexcode)
   y_train = np.array(hexdata)
+
+  print (y_train.shape)
+  uniq = np.unique(y_train)
+  print (uniq.shape)
+  
   ff = np.array(ff)
 
 #  code:0 / data:1
   c_sum, d_sum, t_sum = 0.0, 0.0, 0.0
-  step =1 
+  step = 1 
 
 
   iter_n = 1
@@ -85,26 +92,22 @@ def main(argv):
     idx = np.arange(x_train.shape[0])
     np.random.shuffle(idx)
     ff = ff[idx]
-    ff = ff[:1000]
+    ff = ff[:1500]
+
+    # 1
     x_train = x_train[idx]
     y_train = y_train[idx]
-    #x_test = x_train[:1000]
-    #x_train = x_train[1000:]
-    #y_test = y_train[:1000]
-    #y_train = y_train[1000:]
 
-    """
-    info_test = np.concatenate((info[:5000],info[158343:163000]), axis=0)
-    y_test = np.concatenate((y_train[:5000],y_train[158343:163000]), axis=0)
-    x_test = np.concatenate((x_train[:5000],x_train[158343:163000]), axis=0)
-    x_train = np.concatenate((x_train[5000:158343],x_train[163000:]), axis=0)
-    y_train = np.concatenate((y_train[5000:158343],y_train[163000:]), axis=0)
-    """
+    # 2
+    x_test = x_train[:1500]
+    #x_train = x_train[1500:]
+    y_test = y_train[:1500]
+    #y_train = y_train[1500:]
 
 # TODO
     text_max_words = int(N)
     x_train = sequence.pad_sequences(x_train, maxlen=text_max_words)
-    #x_test = sequence.pad_sequences(x_test, maxlen=text_max_words)
+    x_test = sequence.pad_sequences(x_test, maxlen=text_max_words)
     print (x_train.shape)
     #print (x_test.shape)
     print (x_train)
@@ -123,9 +126,10 @@ def main(argv):
         model.add(Dense(64, activation='relu'))
         #model.add(Dense(32, activation='relu'))
       # XXX model.add(Dense(1, activation='sigmoid'))
-      model.add(Dense(1))
+      #model.add(Dense(units=uniq.shape[0], activation='softmax'))
+      model.add(Dense(units=int(N), activation='softmax'))
       #model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['accuracy'])
-      model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+      model.compile(optimizer='sgd', loss='categorical_crossentropy', metrics=['accuracy'])
 #model.compile('adam', 'mae')
 
       #class_weight = { 1: 0.4, 0: 0.6}
@@ -143,6 +147,10 @@ def main(argv):
       print (x_train[val])
       print (x_train.shape)
 
+    pred = model.predict(x_test)
+    print (pred)
+    print (accuracy_score(y_test, pred))
+    print (np.round(accuracy_score(y_test, pred), 4))
     val_summ += (acc / fold_n)
     #val_summ += acc
 

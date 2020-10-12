@@ -13,9 +13,11 @@ def main(argv):
   N = argv[1]
   flist = ["jt.list"]
   # TODO: If exist, exit
-  out_f = open("1009test_jt"+argv[1]+"_hex.list", 'w')
+  #out_f = open("1009test_jt"+argv[1]+"_hex.list", 'w')
+  #anal_f = open("1009test_jt"+argv[1]+"_hex.anal", 'w')
+  out_f = open("jt"+N+".list", 'w')
+  anal_f=open("jt"+N+".anal", 'w')
 
-  anal_f = open("1009test_jt"+argv[1]+"_hex.anal", 'w')
   first = True
   for i in flist:
     f = open(i, 'r')
@@ -57,7 +59,11 @@ def main(argv):
       while j < len(adrlist) and not "***" in adrlist[j]:
         hexlist = []
         spl = adrlist[j].split()
-        # XXX startAdr = int(spl[1], 16)
+
+        if int(spl[1]) > int(N):
+          j += 1
+          continue
+
         startAdr = int(spl[0], 16)
         s_line = int(startAdr / 4)
         s_idx = (startAdr % 4)
